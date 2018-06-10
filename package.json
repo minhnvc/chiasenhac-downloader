@@ -1,0 +1,35 @@
+{
+  "dependencies": {
+    "blessed": "^0.1.81",
+    "puppeteer": "^1.5.0",
+    "readline": "^1.3.0",
+    "request": "^2.87.0",
+    "request-progress": "^3.0.0",
+    "speakingurl": "^14.0.1"
+  },
+  "engines": {
+    "node": ">=4.2.4"
+  },
+  "name": "chiasenhac-album-downloader",
+  "description": "Download all FLAC file of any album from chiasenhac.vn",
+  "version": "0.1.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/minhnvc/chiasenhac-album-downloader.git"
+  },
+  "keywords": [
+    "chiasenhac",
+    "downloader"
+  ],
+  "author": "MinhNVC <minh3d@gmail.com> (https://minhnvc.me)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/minhnvc/chiasenhac-album-downloader/issues"
+  },
+  "homepage": "https://github.com/minhnvc/chiasenhac-album-downloader#readme"
+}
