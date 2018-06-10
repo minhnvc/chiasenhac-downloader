@@ -1,16 +1,12 @@
+#!/usr/bin/env node
 const puppeteer = require('puppeteer');
-const http = require('http');
 const fs = require('fs');
 const getSlug = require('speakingurl');
 const request = require('request');
 const progress = require('request-progress');
-const readline = require('readline')
 var blessed = require('blessed');
 const args = process.argv.slice(2)
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-});
+
 
 let currentFolder = 'v-limited-deluxe-edititon';
 let processDownload = {};
