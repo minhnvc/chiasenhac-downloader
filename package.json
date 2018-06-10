@@ -10,9 +10,9 @@
     "node": ">=4.2.4"
   },
   "name": "chiasenhac-downloader",
-  "description": "Download any mp3/lossless music file from chiasenhac.vn",
+  "description": "Download any mp3/lossless music file from chiasenhac.vn with Nodejs",
   "version": "0.1.3",
-  "main": "index.js",
+  "main": "app/index.js",
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -32,6 +32,6 @@
   },
   "homepage": "https://github.com/minhnvc/chiasenhac-downloader#readme",
   "bin": {
-    "chiasenhac": "./index.js"
+    "chiasenhac": "./app/index.js"
   }
 }
