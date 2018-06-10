@@ -12,7 +12,7 @@
   },
   "name": "chiasenhac-album-downloader",
   "description": "Download all FLAC file of any album from chiasenhac.vn",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "index.js",
   "devDependencies": {},
   "scripts": {
