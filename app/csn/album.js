@@ -1,8 +1,9 @@
-const puppeteer = require('puppeteer');
 const fs = require('fs');
 const getSlug = require('speakingurl');
 const request = require('request');
 const progress = require('request-progress');
+const Network = require('../utils/network');
+const cheerio = require('cheerio');
 
 module.exports = class Album {
     constructor(url) {
@@ -22,31 +23,16 @@ module.exports = class Album {
     }
 
     async getFlac(url) {
-        const browser = await puppeteer.launch();
-        const page = await browser.newPage();
-        await page.setRequestInterception(true);
-        page.on('request', (request) => {
-            if (['image', 'stylesheet', 'font', 'script'].indexOf(request.resourceType()) !== -1) {
-                request.abort();
-            } else {
-                request.continue();
-            }
-        });
-        await page.goto(url);
+        let html = await Network.getWebHTML(url);
+        const $ = cheerio.load(html);
     
         let resultsSelector = '#downloadlink2';
-        let flacUrl = await page.evaluate(resultsSelector => {
-            const anchors = Array.from(document.querySelectorAll(resultsSelector + ' a'));
-            for (let i = 0; i < anchors.length; i++) {
-                if (anchors[i].href.includes('.flac')) {
-                    return anchors[i].href;
-                }
+        const anchors = $(resultsSelector + ' a');
+        for (let i = 0; i < anchors.length; i++) {
+            if (anchors[i].attribs['href'].includes('.flac')) {
+                this.downloadFile(anchors[i].attribs['href'])
             }
-        }, resultsSelector);
-    
-        this.downloadFile(flacUrl);
-    
-        await browser.close();
+        }
     }
 
     updatePercent(filename, progress) {
@@ -80,46 +66,29 @@ module.exports = class Album {
     async start() {
         this.runDownloadWorker();
 
-        const browser = await puppeteer.launch();
-        const page = await browser.newPage();
-        await page.setRequestInterception(true);
+        let html = await Network.getWebHTML(this.url);
 
-        //turn off all assets
-        page.on('request', (request) => {
-            if (['image', 'stylesheet', 'font', 'script'].indexOf(request.resourceType()) !== -1) {
-                request.abort();
-            } else {
-                request.continue();
-            }
-        });
-
-        await page.goto(this.url);
+        const $ = cheerio.load(html);
 
         let resultsSelector = '.playlist_prv';
-        this.currentFolder = await page.evaluate(resultsSelector => {
-            let title = Array.from(document.querySelectorAll(resultsSelector + ' .cattitle'));
-            return title[0].innerHTML;
-        }, resultsSelector);
+        this.currentFolder = $(resultsSelector + ' .cattitle').html();
         this.currentFolder = getSlug(this.currentFolder.replace('Nghe playlist: Album:', ''))
 
         if (!fs.existsSync('./' + this.currentFolder)) {
             fs.mkdirSync('./' + this.currentFolder);
         }
 
-        let arrayDownload = await page.evaluate(resultsSelector => {
 
-            const anchors = Array.from(document.querySelectorAll(resultsSelector + ' a'));
-            let temp = []
-            anchors.map((anchor, index) => {
-                if (index % 3 == 0) {
-                    temp.push(anchor.href)
-                }
-            });
-            return temp;
-        }, resultsSelector);
+        let arrayDownload = [];
+        const anchors = $(resultsSelector + ' a')
+        for (let index = 0; index < anchors.length; index++) {
+            if (index % 3 == 0) {
+                arrayDownload.push(anchors[index].attribs['href'])
+            }
+        }
+
         for (let i = 0; i < arrayDownload.length; i++) {
             await this.getFlac(arrayDownload[i]);
         }
-        await browser.close();
     }
 }
