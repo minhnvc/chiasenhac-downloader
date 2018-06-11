@@ -11,7 +11,7 @@
   },
   "name": "chiasenhac-downloader",
   "description": "Download any mp3/lossless music file from chiasenhac.vn with Nodejs",
-  "version": "0.1.4",
+  "version": "1.0.1",
   "main": "app/index.js",
   "devDependencies": {},
   "scripts": {
