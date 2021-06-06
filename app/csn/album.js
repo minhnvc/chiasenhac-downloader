@@ -7,6 +7,7 @@ const cheerio = require('cheerio');
 
 module.exports = class Album {
     constructor(url) {
+        console.log(url);
         this.url = url;
         this.currentFolder = '';
         this.queueDownload = [];
@@ -25,7 +26,7 @@ module.exports = class Album {
     async getFlac(url) {
         let html = await Network.getWebHTML(url);
         const $ = cheerio.load(html);
-    
+
         let resultsSelector = '#downloadlink2';
         const anchors = $(resultsSelector + ' a');
         for (let i = 0; i < anchors.length; i++) {
@@ -64,31 +65,38 @@ module.exports = class Album {
     }
 
     async start() {
-        this.runDownloadWorker();
+        // this.runDownloadWorker();
+        let html = await Network.getCookie(this.url, 'chia_se_nhac_session');
+        console.log(html);
+        // let json = await Network.post('https://chiasenhac.vn/login', {
+        //     email: 'minh3d@gmail.com',
+        //     password: 'lqdtxlk',
+        //     remember: 'true',
+        // })
+        // console.log(json);
+        return;
+        // let html = await Network.getWebHTML(this.url);
+        // const $ = cheerio.load(html);
 
-        let html = await Network.getWebHTML(this.url);
+        // let resultsSelector = '.playlist_prv';
+        // this.currentFolder = $(resultsSelector + ' .cattitle').html();
+        // this.currentFolder = getSlug(this.currentFolder.replace('Nghe playlist: Album:', ''))
 
-        const $ = cheerio.load(html);
-
-        let resultsSelector = '.playlist_prv';
-        this.currentFolder = $(resultsSelector + ' .cattitle').html();
-        this.currentFolder = getSlug(this.currentFolder.replace('Nghe playlist: Album:', ''))
-
-        if (!fs.existsSync('./' + this.currentFolder)) {
-            fs.mkdirSync('./' + this.currentFolder);
-        }
+        // if (!fs.existsSync('./' + this.currentFolder)) {
+        //     fs.mkdirSync('./' + this.currentFolder);
+        // }
 
 
-        let arrayDownload = [];
-        const anchors = $(resultsSelector + ' a')
-        for (let index = 0; index < anchors.length; index++) {
-            if (index % 3 == 0) {
-                arrayDownload.push(anchors[index].attribs['href'])
-            }
-        }
+        // let arrayDownload = [];
+        // const anchors = $(resultsSelector + ' a')
+        // for (let index = 0; index < anchors.length; index++) {
+        //     if (index % 3 == 0) {
+        //         arrayDownload.push(anchors[index].attribs['href'])
+        //     }
+        // }
 
-        for (let i = 0; i < arrayDownload.length; i++) {
-            await this.getFlac(arrayDownload[i]);
-        }
+        // for (let i = 0; i < arrayDownload.length; i++) {
+        //     await this.getFlac(arrayDownload[i]);
+        // }
     }
 }

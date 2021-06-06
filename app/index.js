@@ -9,7 +9,7 @@ if (args[0] == 'album') {
     let albumUrl = args[1]
     let album = new Album(albumUrl);
     album.start();
-    terminal.addWatcher(album.processDownload);
+    // terminal.addWatcher(album.processDownload);
 } else {
     console.error('Invalid type')
 }
