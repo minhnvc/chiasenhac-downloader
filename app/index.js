@@ -2,14 +2,15 @@
 const args = process.argv.slice(2)
 const Album = require('./csn/album')
 const Terminal = require('./utils/console')
-let terminal = new Terminal();
+const terminal = new Terminal()
 
-
-if (args[0] == 'album') {
-    let albumUrl = args[1]
-    let album = new Album(albumUrl);
-    album.start();
-    // terminal.addWatcher(album.processDownload);
+if (args[0] === 'album') {
+  const email = args[1]
+  const password = args[3]
+  const albumUrl = args[4]
+  const album = new Album(email, password, albumUrl)
+  album.start()
+  terminal.addWatcher(album.processDownload)
 } else {
-    console.error('Invalid type')
+  console.error('Invalid type')
 }

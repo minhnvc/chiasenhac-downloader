@@ -1,25 +1,27 @@
+<h1 align="center">Chiasenhac.vn Downloader</h1>
 
-
-<h1 align="center">chiasenhac-downloader</h1>
-
-<h5 align="center">Download any mp3/lossless music file from chiasenhac.vn with Nodejs<br>
+<h5 align="center">Download any mp3/lossless (flac) music file from chiasenhac.vn with Nodejs<br>
 <br>
 <p align="center">
   <a href="https://choosealicense.com/licenses/mit/"><img
 	  alt="License MIT"
 	  src="https://img.shields.io/badge/licence-MIT-3498db.svg"></a>
-  <a href="https://www.npmjs.com/"><img
-     alt="npm package"
-     src="https://img.shields.io/badge/npm-6.0.1-e74c3c.svg"></a>
-  <img alt="Current version"
-       src="https://img.shields.io/badge/version-1.0.1-f1c40f.svg">
+  <img alt="npm" src="https://img.shields.io/npm/v/chiasenhac-downloader">
 </p>
+
+## Updates
+ * 1.0.2 (06 Jun 2021): 
+   * Work with new html structure
+   * Requires only logged users can download lossless files.
 
 ## Installation
 `$ npm i -g chiasenhac-downloader`
 
 ## Download Album
-`$ chiasenhac album http://chiasenhac.vn/nghe-album/payphone~maroon-5~ts3m5w5mq8h9h8.html`
+`$ chiasenhac album {email} {password} {album-link}`
+
+### Example
+`$ chiasenhac album https://chiasenhac.vn/nghe-album/different-world-xss7r6rsqtaka4.html`
 
 ## Result
 

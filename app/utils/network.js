@@ -1,52 +1,66 @@
-const https = require('https');
-const querystring = require('querystring');
-const axios = require('axios');
+const querystring = require('querystring')
+const axios = require('axios')
 
 module.exports = class Network {
-    static getWebHTML(url) {
-        return new Promise(resolve => {
-            https.get(url, (res) => {
-                let rawData = '';
-                res.on('data', (chunk) => { rawData += chunk; });
-                res.on('end', () => {
-                    try {
-                        resolve(rawData);
-                    } catch (e) {
-                        console.error(e.message);
-                    }
-                });
-            })
-        })
-    }
+  static getWebHTML (url, loginToken) {
+    return new Promise(resolve => {
+      const headers = {
+        Cookie: 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d=' + loginToken
+      }
+      const options = {
+        method: 'GET',
+        url: url,
+        headers
+      }
+      axios(options).then(res => {
+        resolve(res.data)
+      })
+    })
+  }
 
-    static getCookie(url, key) {
-        return new Promise(resolve => {
-            axios.get(url)
-                .then((response) => {
-                    response.headers['set-cookie'].map(e => {
-                        let ck = e.split('; expires')[0].split('=')
-                        if (ck[0] == key) {
-                            resolve(ck[1])
-                        }
-                    })
-
-                })
+  static getTokenBeforeLogin (url) {
+    return new Promise(resolve => {
+      axios.get(url)
+        .then((response) => {
+          // get token
+          const html = response.data
+          const re = /name="csrf-token" content="(.+)"/g
+          const r = html.match(re)
+          const csrfToken = r[0].split('"')[3]
+          // get session
+          response.headers['set-cookie'].map(e => {
+            const ck = e.split('; expires')[0].split('=')
+            if (ck[0] === 'chia_se_nhac_session') {
+              resolve({
+                token: csrfToken,
+                session: ck[1]
+              })
+            }
+            return e
+          })
         })
-    }
+    })
+  }
 
-    static post(url, postData) {
-        return new Promise(resolve => {
-            const headers = {}
-            const options = {
-                method: 'post',
-                url: url,
-                data: querystring.stringify(postData),
-                transformRequest: [(data, headers) => {
-                    resolve(data)
-                }]
-            };
-            axios(options);
+  static getLoginSession (header, postData) {
+    const url = 'https://chiasenhac.vn/login'
+    return new Promise(resolve => {
+      const headers = header
+      const options = {
+        method: 'POST',
+        url: url,
+        headers,
+        data: querystring.stringify(postData)
+      }
+      axios(options).then(res => {
+        res.headers['set-cookie'].map(e => {
+          const ck = e.split('; expires')[0].split('=')
+          if (ck[0] === 'remember_web_59ba36addc2b2f9401580f014c7f58ea4e30989d') {
+            resolve(ck[1])
+          }
+          return e
         })
-    }
+      })
+    })
+  }
 }
-
