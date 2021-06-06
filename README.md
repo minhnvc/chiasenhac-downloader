@@ -10,7 +10,7 @@
 </p>
 
 ## Updates
- * 1.0.2 (06 Jun 2021): 
+ * 1.2.2 (06 Jun 2021): 
    * Work with new html structure
    * Requires only logged users can download lossless files.
 
@@ -35,6 +35,6 @@
 🎯 Easy to use
 
 ## Roadmap
-* Download multiple albums
+* Download multiple albums / single song
 * Auto downgrade to 320 if FLAC file is not available
 * Good looking terminal

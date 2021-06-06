@@ -9,7 +9,7 @@
     },
     "name": "chiasenhac-downloader",
     "description": "Download any mp3/lossless music file from chiasenhac.vn with Nodejs",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "main": "app/index.js",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
