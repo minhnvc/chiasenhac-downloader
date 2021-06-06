@@ -21,7 +21,7 @@
 `$ chiasenhac album {email} {password} {album-link}`
 
 ### Example
-`$ chiasenhac album https://chiasenhac.vn/nghe-album/different-world-xss7r6rsqtaka4.html`
+`$ chiasenhac album abc@gmail.com abc123 https://chiasenhac.vn/nghe-album/different-world-xss7r6rsqtaka4.html`
 
 ## Result
 
